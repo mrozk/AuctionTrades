@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AuctionTrades" default="deploy" basedir="..">
+	
+	<property file="ant/ant.properties"/>
+	
+	<path id="compile.classpath">
+	 		 	<fileset dir="${libdir}">
+	 		 		<include name="**/*.jar"/>
+	 		 	</fileset>
+	</path>
+	
+	<target name="clean">
+				<delete dir="${build.dir}"/>
+			 	<delete dir="${build.dir.class}"/>
+			 	<delete dir="${dist}" />
+		
+				<delete dir="${webinf.root.lib}"></delete>
+	</target>
+	
+	<target name="init" depends="clean">
+			<mkdir dir="${build.dir}"/>
+		 	<mkdir dir="${build.dir.class}"/>
+		 	<mkdir dir="${dir.dest}" />
+		
+			<mkdir dir="${webinf.root.lib}" />
+	 </target>
+	
+	<target name="compile" depends="init">
+			<javac destdir="${build.dir.class}" debug="true" srcdir="src">
+				 		<classpath refid="compile.classpath"/>
+			</javac>
+	</target>
+	
+	<target name="packproperties">
+		
+		<copy todir="${webinf.root.lib}">
+				<fileset dir="libriaries/eclipselink/" />
+				<fileset dir="libriaries/mysql/" />
+		</copy>
+		
+		<echo>pack properties</echo>
+	</target>
+	
+	<target name="war" depends="packproperties">
+		<war destfile="${dir.dest}${war.filename}.war" webxml="${webinf.root}web.xml">
+			<fileset dir="WebContent"/>
+			<lib dir="${webinf.root.lib}"/>
+			<classes dir="${build.dir.class}"/>
+		</war>
+	</target>
+	
+	<target name="deploy" depends="war">
+		<echo>Deploing ...</echo>
+		<exec executable="${asadmin.path}asadmin">
+		 		 			<arg line="undeploy  ${war.filename}" ></arg>
+		 		</exec>
+		 		<exec executable="${asadmin.path}asadmin">
+		 			<arg line="deploy  ${dir.dest}${war.filename}.war" ></arg>
+		 </exec>
+	</target>
+</project>
