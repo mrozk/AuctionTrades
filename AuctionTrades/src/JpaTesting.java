@@ -33,9 +33,8 @@ public class JpaTesting {
 		Users users = new Users();
 		users.setLogin("Mrozy");
 		em.persist(users);
-		em.getTransaction().commit();
 		
-		em.getTransaction().begin();
+		
 		Lots lot = new Lots();
 		lot.setName("hello");
 		lot.setDescription("OZK"); 
@@ -43,6 +42,7 @@ public class JpaTesting {
 		
 		
 		em.persist(lot);
+		
 		em.getTransaction().commit();
 		
 	}

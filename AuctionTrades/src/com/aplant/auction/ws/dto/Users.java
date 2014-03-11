@@ -1,6 +1,7 @@
 package com.aplant.auction.ws.dto;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 
@@ -27,11 +29,12 @@ public class Users {
 	
 	private String lastname;
 	
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "users")
 	private final List<Lots> lots = new ArrayList<Lots>();
-
+	
+	
 	public List<Lots> getLots() {
-		return lots;
+	    return lots;
 	}
 
 	public int getId() {

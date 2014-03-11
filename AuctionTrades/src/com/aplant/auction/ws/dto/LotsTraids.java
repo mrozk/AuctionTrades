@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class LotsTraids {
@@ -12,10 +14,13 @@ public class LotsTraids {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id;
 	
+	@Temporal(TemporalType.DATE)
 	private java.util.Date inputdate;
 	
+	public int user_id;
+	
 	@ManyToOne
-	private Users user;
+	private Lots lot;
 	
 	public int getId() {
 		return id;
@@ -24,7 +29,7 @@ public class LotsTraids {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
 	public java.util.Date getInputdate() {
 		return inputdate;
 	}
@@ -33,22 +38,17 @@ public class LotsTraids {
 		this.inputdate = inputdate;
 	}
 
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
-
-	public Lots getLot() {
-		return lot;
-	}
+	
 
 	public void setLot(Lots lot) {
 		this.lot = lot;
 	}
-
+	
 	@ManyToOne
-	private Lots lot;
+	public Lots getLot() {
+		return lot;
+	}
+
+	
+
 }

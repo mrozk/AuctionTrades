@@ -1,12 +1,18 @@
 package com.aplant.auction.ws.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -18,9 +24,10 @@ public class Lots {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name="user_id")
-	private Users user;
+	@OneToMany(mappedBy = "lot")
+	private final List<LotsTraids> traids = new ArrayList<LotsTraids>();
+	
+	private Users users;
 	
 	private double startprice;
 	
@@ -34,6 +41,20 @@ public class Lots {
 	@Temporal(TemporalType.DATE)
 	private java.util.Date finishdate;
 	
+	
+	@ManyToOne
+	public Users getUser() {
+	    return users;
+	}
+	
+	@OneToMany
+	public List<LotsTraids> getLots() {
+	    return traids;
+	}
+
+	public void setUser(Users users) {
+	    this.users = users;
+	}
 	
 	public int getId() {
 		return id;
@@ -83,7 +104,7 @@ public class Lots {
 	public void setStartprice(double startprice) {
 		this.startprice = startprice;
 	}
-	
+	/*
 	public Users getUser() {
 		return user;
 	}
@@ -91,6 +112,6 @@ public class Lots {
 	public void setUser(Users user) {
 		this.user = user;
 	}
-	
+	*/
 	
 }
